@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
   x[0] = frand(-5, 10);  
   x[1] = frand(0, 15); 
       f = branin(&x[0]);
-        cout << i+1 << " : " << f << endl;
+        cout << i+1 << " : " << f << " taskai : " << x[0] << " " <<  x[1] << endl;
    if (i==0) min = f;
    else if (min > f) {min = f; xMin[0] = x[0]; xMin[1] = x[1]; };      
   }
