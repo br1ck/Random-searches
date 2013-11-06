@@ -4,6 +4,30 @@
 #include <time.h>
 #include <fstream>
 
+double xx[100][2];
+
+template <class T>
+  void exch(T &A, T &B)
+    { T t = A ; A = B; B = t; }
+
+
+template <class T>
+void selection(T a[], int l, int r)
+  { for (int i = l; i < r; i++)
+      { int min = i;
+        for (int j = i+1; j <= r; j++)
+        {
+                      if (a[j] < a[min]) {min = j; };
+        }
+
+        exch(a[i], a[min]);
+        exch(xx[i][0], xx[min][0]);
+        exch(xx[i][1], xx[min][1]);
+      }
+  }
+
+
+
 using namespace std;
 const double pi = 3.1415926535897932384626433832795 ;
 
@@ -21,7 +45,8 @@ double branin(double *x)
 
 int main(int argc, char *argv[])
 {
-    double x[9],xMin[9],w[150];
+    double x[9],xMin[9],w[110];
+
     double f,f2,min=0;
     int v1, v2;
    srand(100);   //srand (time(NULL));
@@ -31,9 +56,9 @@ int main(int argc, char *argv[])
 
   for(int i=0;i<100;i++){
   x[0] = frand(-5, 10);
-
+xx[i][0] = x[0];
   x[1] = frand(0, 15);
-
+xx[i][1] = x[1];
   f = branin(&x[0]);
 
 if (myfile.is_open())
@@ -69,6 +94,10 @@ min = w[i]; myfile3 <<  i+1 << " " << w[i] << "\n";
 }
   }
    myfile3.close();
+
+selection(w, 0, 99);
+  for(int i=0;i<100;i++)
+      cout << i+1 << " : " << w[i] << " taskai : " << xx[i][0] << " " <<  xx[i][1] << endl;
 
     system("PAUSE");
     return EXIT_SUCCESS;
