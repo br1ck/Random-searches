@@ -4,7 +4,8 @@
 #include <time.h>
 #include <fstream>
 
-double xx[100][2], yy[20][2];
+double xx[10000][2], yy[10000][2];
+
 
 template <class T>
   void exch(T &A, T &B)
@@ -45,16 +46,25 @@ double branin(double *x)
 
 int main(int argc, char *argv[])
 {
-    double x[9],xMin[9],w[110];
-
+   int ntrial = 10000;
+    double nproc = 0.75;
+    int nclusters = 100;
+    
+    if (argc > 1) {
+    ntrial = atoi(argv[1]);
+    nproc = atof(argv[2]);
+    nclusters = atoi(argv[3]); 
+                  }  
+    
+    double x[9],xMin[9],w[10000];
     double f,f2,min=0;
     int v1, v2;
-   srand(101);   //srand (time(NULL));
+   srand(104);   //srand (time(NULL));
    ofstream myfile, myfile2, myfile3;
    myfile.open ("rezvisixf.txt");
 double a1 = -5 ,a2 = 10 ,a3 = 0 ,a4 = 15;
 
-  for(int i=0;i<100;i++){
+  for(int i=0;i<ntrial;i++){
   x[0] = frand(a1, a2);
 xx[i][0] = x[0];
   x[1] = frand(a3, a4);
@@ -74,7 +84,7 @@ if (myfile.is_open())
 
 
    myfile2.open ("rezvisiif.txt");
-for(int i=0;i<100;i++){
+for(int i=0;i<ntrial;i++){
 if (myfile2.is_open())
  myfile2 <<  i+1 << " " << w[i] << "\n";
   }
@@ -83,7 +93,7 @@ if (myfile2.is_open())
       myfile3.open ("rezif.txt");
     myfile3 <<  1 << " " << w[0] << "\n";
     min=w[0];
-for(int i=1;i<100;i++){
+for(int i=1;i<ntrial;i++){
 if (myfile3.is_open() & (min > w[i]))
 {
 min = w[i]; myfile3 <<  i+1 << " " << w[i] << "\n";
@@ -96,38 +106,38 @@ selection(w, 0, 79); // rusiuoju tik pirmus 80
 cout<<endl<<"******************************************"<<endl;
 cout<<"Surusiuota :"<<endl<<endl;
 
-  for(int i=0;i<80;i++)
+  for(int i=0;i<ntrial*nproc;i++)
       cout << i+1 << " : " << w[i] << " taskai : " << xx[i][0] << " " <<  xx[i][1] << endl;
       
    cout << endl << "Minimumas : " << min << endl;
    cout << "xMin = (" << xMin[0] << ", " << xMin[1] << ")" << endl;      
       
 cout<<"******************************************"<<endl<<endl; // nauja sritis
-cout<<"5 geriausi taskai:"<<endl;
-for(int i=0;i<5;i++)
+cout<< nclusters <<" geriausi taskai:"<<endl;
+for(int i=0;i<nclusters;i++)
 cout << i+1 << " : " << w[i] << " taskai : " << xx[i][0] << " " <<  xx[i][1] << endl;
-
-  for(int i=0;i<5;i++)
+int q=0;
+  for(int i=0;i<nclusters;i++)
   {
-            for(int j=0;j<4;j++)
+            for(int j=0;j<nclusters*nproc;j++)
             {
 x[0] = frand(xx[i][0]-((a2-a1)*0.05), xx[i][0]+((a4-a3)*0.05));
 yy[i*4+j][0] = x[0];
 x[1] = frand(xx[i][1]-((a2-a1)*0.05), xx[i][1]+((a4-a3)*0.05));
 yy[i*4+j][1] = x[1];
-//cout<<yy[i*5+j][0] << "  " << yy[i*5+j][1] << endl;   (tikrinimas)
+//cout<<yy[i*4+j][0] << "  " << yy[i*4+j][1] << endl;   (tikrinimas)
   f = branin(&x[0]); 
   
-  // cout << i*4+j+1 << " : " << f << " taskai : " << x[0] << " " <<  x[1] << endl;
+ 
 
-   if (min > f) {
-           min = f; xMin[0] = x[0]; xMin[1] = x[1];
+   if (min > f) { 
+           min = f; xMin[0] = x[0]; xMin[1] = x[1];q= 1;
            cout << endl << "Pagerinome : " << f << " taskai : " << x[0] << " " <<  x[1] << endl; 
            }; 
    w[80+i*4+j]=f;
 }  
 }
-
+if (q == 0) cout << endl << "Nepagerinome :( " <<endl; 
    cout << endl << "Minimumas : " << min << endl;
    cout << "xMin = (" << xMin[0] << ", " << xMin[1] << ")" << endl;
 
