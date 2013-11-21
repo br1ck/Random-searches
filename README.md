@@ -3,7 +3,11 @@ Random-searches
 
 Atsitiktiniu paieskos metodu realizacijos
 -------------------------------------------------
-#v2.0 planuojame idiegti sias galimybes
- - Isveda gautuosius rezultatus i isorinius failus tolesnei rezultatu analizei.
- - Rezultatu isvedimas realizuotas per **void** funkcija
- - Isrenka nurodyta skaiciu geriausiu sprendiniu t.y. surusiuoja visus bandymo taskus
+#v3.0 
+
+Pilna veikianti versija.
+
+ - Įvestas parametrų įvedimas
+ - Paieška naudojant pasirenkamą kiekį clusterių
+ - Realizuotas dinaminis atminties paskirstymas 
+ - Atliekama paieška tol kol nerasime reikšmės pagal nurodytą paklaidą
